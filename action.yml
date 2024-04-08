@@ -1,0 +1,29 @@
+name: 'Terragrunt summirize Action for GitHub'
+
+description: 'Finds all terragrunt plan files in the project repository and adds comment to PR'
+
+on:
+  workflow_call:
+    inputs:
+      plan_file_name:
+        description: 'The name of the plan file'
+        required: false
+        default: 'plan.json'
+
+
+jobs:
+  reusable_workflow_job:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - run: |
+      echo '| CHANGE |                     RESOURCE                      |' > summary.md;\
+      echo '|--------|---------------------------------------------------|' >> summary.md
+
+    - name: Find plan files
+      run: |
+        find . -name ${{ inputs.plan_file_name }} -exec tf-summarize -md {} \; |grep -v ' CHANGE ' |grep -v '\-\-\-\-' >> summary.md
+    - uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            $(cat summary.md)

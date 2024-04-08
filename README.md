@@ -14,6 +14,16 @@ terraform {
 
     arguments = ["-out=tfplan.output"]
   }
+  after_hook "after_hook_plan" {
+    commands = ["plan"]
+    execute  = ["sh", "-c", "terraform show -json tfplan.output > tfplan.json"]
+  }
+
   ...
 }
+```
+
+The following command is being executed to generate the output:
+```bash
+find . -name tfplan.json -exec tf-summarize {} \;
 ```
