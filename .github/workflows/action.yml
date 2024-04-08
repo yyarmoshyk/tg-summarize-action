@@ -8,6 +8,7 @@ on:
       plan_file_name:
         description: 'The name of the plan file'
         required: false
+        type: string
         default: 'plan.json'
 
 
