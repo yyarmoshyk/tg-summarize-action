@@ -10,11 +10,16 @@ on:
         required: false
         type: string
         default: 'plan.json'
+      runs_on:
+        description: 'the list of runners'
+        required: true
+        type: list
+        default: []
 
 
 jobs:
   reusable_workflow_job:
-    environment: production
+    runs-on: ${{ inputs.runs_on }}
     steps:
     - run: |
         echo '| CHANGE |                     RESOURCE                      |' > summary.md ;\
