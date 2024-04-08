@@ -22,8 +22,11 @@ jobs:
 
     - name: Find plan files
       run: |
-        find . -name ${{ inputs.plan_file_name }} -exec tf-summarize -md {} \; |grep -v ' CHANGE ' |grep -v '\-\-\-\-' >> summary.md
+        docker run -v $PWD:/workspace -w /workspace 
+        ghcr.io/dineshba/tf-summarize /bin/sh -c \
+        "find . -name ${{ inputs.plan_file_name }} -exec tf-summarize -md {} \; |grep -v ' CHANGE ' |grep -v '\-\-\-\-' >> summary.md" ;\
+        echo "MESSAGE=$(cat summary.md)" >> $GITHUB_ENV
+
     - uses: mshick/add-pr-comment@v2
         with:
-          message: |
-            $(cat summary.md)
+          message: $MESSAGE
