@@ -16,8 +16,8 @@ jobs:
     environment: production
     steps:
     - run: |
-      echo '| CHANGE |                     RESOURCE                      |' > summary.md;\
-      echo '|--------|---------------------------------------------------|' >> summary.md
+        echo '| CHANGE |                     RESOURCE                      |' > summary.md ;\
+        echo '|--------|---------------------------------------------------|' >> summary.md
 
     - name: Find plan files
       run: |
@@ -27,5 +27,5 @@ jobs:
         echo "MESSAGE=$(cat summary.md)" >> $GITHUB_ENV
 
     - uses: mshick/add-pr-comment@v2
-        with:
-          message: $MESSAGE
+      with:
+        message: $MESSAGE
