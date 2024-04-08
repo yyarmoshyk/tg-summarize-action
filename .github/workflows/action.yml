@@ -16,7 +16,6 @@ on:
         type: list
         default: []
 
-
 jobs:
   reusable_workflow_job:
     runs-on: ${{ inputs.runs_on }}
